@@ -1,0 +1,157 @@
+<div class="container">
+
+<div class="jumbotron">
+  <div class="container">
+
+<h2><%= @shelter.name %> Page</h2>
+
+    <div class="shelter_information">
+
+        <p><b>Address:</b> <%= @shelter.street_address %> |
+        <b>Phone:</b> <%= @shelter.phone_number%>
+        <% if @shelter.website.present? %> |  <%= link_to "Visit our Website", @shelter.website%><% end %></p>
+
+<!-- END GENERAL SHELTER INFORMATION -->
+
+<% if session[:shelter_id].present? && session[:shelter_id] == @shelter.id %>
+
+<!-- EDITING SHELTER INFORMATION -->
+
+      <p><%= link_to "Update Shelter Info", edit_shelter_url(@shelter.id) %>|
+      <%= link_to 'Delete Shelter', shelter_url(@shelter.id), method: 'delete', data: { confirm: "Do you really want to delete this shelter? You will not be able to retrieve it." } %> </p>
+    </div>
+<% end %>
+      <% if @shelter.open_beds == 0 %>
+      <div class="beds_full"><h4>This shelter is currently full. Please see other shelters for open beds.<h4></div>
+      <% else %>
+    <h4 class="beds_open_2"><%= @shelter.open_beds %> of <%= @shelter.total_beds %> beds are currently open at this shelter.</h4>
+    <% end %>
+    </div>
+
+
+ <!-- MAPPING Locations with gmaps4rails -->
+
+
+<div id="map" style="width: 100%; height: 300px;"></div>
+<!-- <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true"></script> -->
+<script type="text/javascript">
+
+  $(function() {
+    var location = <%= @shelter.return_latlong(@shelter.street_address).to_json.html_safe %>
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 14,
+      center: new google.maps.LatLng(location[0], location[1]),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+
+
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(location[0], location[1]),
+        map: map
+      });
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(location[0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+  });
+
+  </script>
+  </div>
+
+
+
+<!-- MAP END -->
+
+<% if session[:shelter_id].present? && session[:shelter_id] == @shelter.id %>
+
+<!-- Register a bed - only shelter owners should see this -->
+
+    <h3>Register a Guest</h3>
+
+  <%= form_tag(occupants_url, method: 'post') do %>
+
+      <div>
+        <%= label_tag :name %><br />
+        <%= text_field_tag :name, nil, :class => "form-control"%>
+      </div>
+
+      <div>
+        <%= label_tag :sex %><br />
+        <%= text_field_tag :sex, nil, :class => "form-control" %>
+      </div>
+
+      <div>
+        <%= label_tag :number_of_beds, "Number of beds needed" %><br />
+        <%= number_field_tag :number_of_beds, nil, min:0, :class => "form-control" %>
+      </div>
+
+      <div>
+        <% label_tag :shelter_id, "Shelter Name" %><br />
+        <%= hidden_field_tag :shelter_id, @shelter.id %>
+      </div>
+          <br>
+      <div>
+        <%= submit_tag "Create Occupant", :class => "btn btn-primary" %>
+      </div>
+
+
+
+  <% end %>
+
+</div>
+
+
+
+  </div>
+</div>
+
+
+<div class="container">
+
+  <h2>Occupant's for <%= Time.now.strftime("%b %d, %Y") %></h2>
+    <% if @occupants.present? %>
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Sex</th>
+            <th># of Beds Needed</th>
+            <!-- <th>Edit Occupant</th> -->
+            <th>Delete Occupant</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+              <% @occupants.each do |occupant| %>
+              <tr>
+                <td><%= occupant.name %></td>
+                <td><%= occupant.sex %></td>
+                <td><%= occupant.number_of_beds %></td>
+                <!-- <td>< link_to 'Edit', edit_occupant_url(occupant) %></td> -->
+                <td><%= link_to 'Occupant Left', occupant_url(occupant), method: 'delete', data: { confirm: "Do you really want to delete this occupant? This will make their bed open again." } %></td>
+              </tr>
+              <% end %>
+        </tbody>
+      </table>
+       <% else %>
+        <%= "No occupants have been registered yet." %>
+        <br>
+      <% end %>
+
+
+
+<% end %>
+
+</div>
+</div>
+<br>

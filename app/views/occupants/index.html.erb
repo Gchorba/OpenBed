@@ -1,0 +1,31 @@
+<br><br>
+<div class="container">
+
+  <h2>Occupants</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Sex</th>
+        <th># of Beds Needed</th>
+        <th>Shelter Name</th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+    <% @occupants.each do |occupant| %>
+      <tr>
+        <td><%= occupant.name %></td>
+        <td><%= occupant.sex %></td>
+        <td><%= occupant.number_of_beds %></td>
+        <% if Shelter.find_by(id: occupant.shelter_id).present? %>
+        <td><%= Shelter.find_by(id: occupant.shelter_id).name %></td>
+        <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+</div>

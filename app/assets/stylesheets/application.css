@@ -1,0 +1,167 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require fancybox
+ *= require_tree .
+ */
+
+ body, html {
+  height: 100%;
+ }
+
+.background {
+  background: url('IL2.png') 50% 50% ;
+  background-repeat: no-repeat;
+  height: 530px;
+}
+
+.home {
+  color:white;
+
+}
+
+.container {
+  margin-top: 20px;
+}
+
+/*MAP STYLE*/
+
+#map img {
+  max-width: none;
+}
+#map label {
+  width: auto; display:inline;
+}
+
+/*Nav*/
+
+/* 2.1 Navigation */
+
+#nav {
+  width: 100%;
+  height: 60px;
+  font-size: 14px;
+  text-align: center;
+  background-color: white;
+  position: absolute;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+
+#nav ul {
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  display: inline-block;
+  *display: inline;
+}
+
+#nav ul li {
+  padding: 0 8px;
+  line-height: 40px;
+  display: inline-block;
+  float: left;
+  text-transform: uppercase;
+}
+
+#nav ul li a {
+  display: block;
+  font-size: 0.938em;
+  letter-spacing: 0.1em;
+  color: #707070;
+  text-decoration: none;
+}
+
+#nav ul li a:hover, #nav ul li.current a { color: #000000;
+}
+
+/*Homepage Styling*/
+
+.login_link {
+  text-align: right;
+}
+
+.homepage {
+
+  text-align: center
+  }
+
+.homepage h1 {
+  font-size: 50px;
+  text-decoration: none;
+  font-family: 'Oxygen', sans-serif;
+  }
+
+.homepage a:hover {
+  color:#083584;
+  text-decoration: none}
+
+  .background h1 {
+    padding-top: 120px;
+  }
+
+.homepage_text p {
+  font-size: 16px;
+  font-family: 'Oxygen', sans-serif;
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  }
+
+.shelter_information p {
+  font-size: 15px;
+  text-align: center;
+
+}
+
+.register_your_shelter_button {
+  text-align: center;
+}
+
+.shelters_index_header {
+  text-align: center
+}
+
+.shelter_column {
+  width: 400px;
+}
+
+.occupant_table {
+  width: 300px;
+}
+
+h2 {
+  text-align: center;
+}
+
+.beds_open h4 {
+text-align: center;
+}
+
+.beds_full h4 {
+text-align: center;
+}
+
+.beds_open_2 {
+  color: orange;
+  text-align: center;
+}
+
+.beds_full {
+  color: red;
+}
+
+.beds_open_1 {
+  color: orange;
+  text-align: left;
+}
+
